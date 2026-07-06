@@ -1,0 +1,31 @@
+services:
+  auth-database:
+    image: mysql:8.0
+    container_name: blipchat-auth-db
+    environment:
+      MYSQL_DATABASE: ${AUTH_DB_NAME:-blipchat_auth_service}
+      MYSQL_USER: ${AUTH_DB_USER:-blipchat_auth_user}
+      MYSQL_PASSWORD: ${AUTH_DB_PASSWORD:-blipchat_auth_password}
+      MYSQL_ROOT_PASSWORD: ${AUTH_DB_ROOT_PASSWORD:-root_password}
+    ports:
+      - "${AUTH_DB_PORT:-8206}:3306"
+    volumes:
+      - auth-db-data:/var/lib/mysql
+    networks:
+      - blipchat-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${AUTH_DB_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  
+    restart: unless-stopped    
+
+volumes:
+  auth-db-data:
+
+
+networks:
+  blipchat-network:
+    driver: bridge
+

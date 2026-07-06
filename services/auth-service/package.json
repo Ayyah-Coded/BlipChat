@@ -5,9 +5,9 @@
   "private": true,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "scripts": {    
+  "scripts": {
     "predev": "pnpm --filter common build",
-    "dev": "tsx --watch src/index.ts",
+    "dev": "tsx --watch --experimentalEsm src/index.ts",
     "prestart": "pnpm --filter common build",
     "build": "tsc --project tsconfig.json",
     "start": "node dist/index.js",
@@ -21,11 +21,20 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "common": "workspace:^",
+    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "helmet": "^8.2.0",
+    "jsonwebtoken": "^9.0.3",
+    "mysql2": "^3.22.5",
+    "sequelize": "^6.37.8"
   },
   "devDependencies": {
-    "@types/express": "^5.0.6"
+    "@types/bcrypt": "^6.0.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10"
   }
 }
