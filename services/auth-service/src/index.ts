@@ -4,6 +4,7 @@ import { env } from "./config/env";
 import { logger } from "./utils/logger";
 import { closeDatabase, connectToDatabase } from "./db/sequelize";
 import { initModels } from "./models/index"
+import { closePublisher, initPublisher } from "./messaging/event-publishing";
 
 
 
@@ -12,6 +13,7 @@ const main = async () => {
   try {
     await connectToDatabase();
     await initModels();
+    await initPublisher();
 
     const app = createApp();
     const server = createServer(app);
@@ -25,7 +27,7 @@ const main = async () => {
     const shutdown = () => {
       logger.info('Shutting down auth service...');
 
-      Promise.all([closeDatabase()])
+      Promise.all([closeDatabase(), closePublisher()])
         .catch((error: unknown) => {
           logger.error( error );
         })

@@ -7,6 +7,7 @@ import { HttpError } from 'common';
 import { Op, Transaction } from 'sequelize';
 import crypto from 'crypto';
 import { logger } from '@/utils/logger';
+import { publishUserRegistered } from '@/messaging/event-publishing';
 
 const REFRESH_TOKEN_TTL_DAYS = 30;
 
@@ -48,6 +49,7 @@ export const register = async (input: RegisterInput): Promise<AuthResponse> => {
       createdAt: user.createdAt.toISOString(),
     };
 
+    publishUserRegistered(userData);
 
     return {
       accessToken,

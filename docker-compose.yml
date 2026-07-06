@@ -1,4 +1,16 @@
 services:
+  blipchat-rabbitmq:
+    image: rabbitmq:3-management
+    container_name: blipchat-rabbitmq
+    ports:
+      - "${RABBITMQ_PORT:-9550}:5672"
+      - "${RABBITMQ_MANAGEMENT_PRT:-15672}:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER:-guest}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD:-guest}
+    networks:
+      - blipchat-network
+
   auth-database:
     image: mysql:8.0
     container_name: blipchat-auth-db

@@ -4,6 +4,8 @@ import helmet from "helmet";
 import type { Application } from "express";
 import { errorHandler } from "./middleware/error-handler";
 import { registerRoutes } from "./routes";
+import { createInternalAuthMiddleware } from "common";
+import { env } from "./config/env";
 
 export const createApp = (): Application => {
   const app = express();
@@ -13,8 +15,11 @@ export const createApp = (): Application => {
     origin: "http://localhost:9502",
     credentials: true
   }));
+  
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
+
+  app.use(createInternalAuthMiddleware(env.INTERNAL_AUTH_TOKEN));
 
   registerRoutes(app);
 
