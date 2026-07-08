@@ -31,7 +31,7 @@ COPY services/user-service ./services/user-service
 RUN pnpm --filter common build
 
 #Build user-service
-RUN pnpm --filter auth-service build
+RUN pnpm --filter user-service build
 
 
 FROM node:22-alpine AS production
